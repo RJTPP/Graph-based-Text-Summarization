@@ -1,0 +1,10 @@
+networkx
+matplotlib
+scipy
+regex
+tqdm
+nltk
+pathlib
+numpy
+orjson
+prettytable
