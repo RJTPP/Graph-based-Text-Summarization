@@ -201,23 +201,23 @@ The project can be configured through `config.json`, which contains:
 ```json
 {
     "path": {
-        "cached_dir": "caches",
-        "dataset_dir": "dataset",
-        "output_dir": "output", 
-        "validation_file": "validation/validation.json"
+        "cached_dir"      : "caches",
+        "dataset_dir"     : "dataset",
+        "output_dir"      : "output", 
+        "validation_file" : "validation/validation.json"
     },
     "parameters": {
-        "calculation_threshold": 1e-5,
-        "max_calculation_iteration": 200,
-        "trustrank_bias_amount": 5,
-        "max_summarize_length": 20,
-        "trustrank_filter_threshold": 1e-3
+        "calculation_threshold"      : 1e-5,
+        "max_calculation_iteration"  : 200,
+        "trustrank_bias_amount"      : 5,
+        "max_summarize_length"       : 20,
+        "trustrank_filter_threshold" : 1e-3
     },
     "options": {
-        "stop_on_error": false,
-        "use_networkx_library": false,
-        "output_graph": true,
-        "show_graph": false
+        "stop_on_error"        : false,
+        "use_networkx_library" : false,
+        "output_graph"         : true,
+        "show_graph"           : false
     },
     "target_data_key": [
         "full_text"
