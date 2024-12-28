@@ -68,7 +68,7 @@ def print_settings() -> None:
     print(f"SHOW_GRAPH\t\t\t: {SHOW_GRAPH}")
     print()
 
-    print(f"TARGET_DATA_KEY\t\t\t: {'.'.join(TARGET_DATA_KEY)}")
+    print(f"TARGET_DATA_KEY\t\t\t: {'.'.join(TARGET_DATA_KEY) if TARGET_DATA_KEY is not None else None}")
     print(f"MAX_CALCULATION_THRESHOLD\t: {CALCULATION_THRESHOLD}")
     print(f"MAX_CALCULATION_ITERATION\t: {MAX_CALCULATION_ITERATION}")
     print(f"MAX_TRUST_RANK_ITERATION\t: {MAX_TRUST_RANK_ITERATION}")
