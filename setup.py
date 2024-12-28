@@ -22,11 +22,11 @@ def spinner(message):
     thread.start()
     return stop_event
 
-def run_with_spinner(command, message):
+def run_with_spinner(command, message, check=True):
     """Run a subprocess command with a spinner animation."""
     stop_event = spinner(message)
     try:
-        subprocess.run(command, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run(command, check=check, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     finally:
         stop_event.set()
 
@@ -37,7 +37,12 @@ def create_venv(venv_dir="venv"):
         if input("Do you want to overwrite it? (y/n): ").lower() != "y":
             return
         else:
-            subprocess.run(["rmdir", "/s", "/q", venv_dir] if os.name == "nt" else ["rm", "-rf", venv_dir], check=True)
+            # Window
+            if os.name == "nt":
+                subprocess.run(["rmdir", "/s", "/q", venv_dir], check=True, shell=True)
+            # Unix
+            else:
+                subprocess.run(["rm", "-rf", venv_dir], check=True)
 
     run_with_spinner([sys.executable, "-m", "venv", venv_dir], f"Creating virtual environment in {venv_dir}...")
     print()
@@ -45,8 +50,14 @@ def create_venv(venv_dir="venv"):
 
 def upgrade_pip(venv_dir="venv"):
     """Upgrade pip in the virtual environment."""
-    pip_executable = os.path.join(venv_dir, "Scripts" if os.name == "nt" else "bin", "pip")
-    run_with_spinner([pip_executable, "install", "--upgrade", "pip"], "Upgrading pip...")
+    # Window
+    if os.name == "nt":
+        pip_executable = os.path.join(venv_dir, "Scripts", "python.exe")
+        run_with_spinner([pip_executable, "-m", "pip", "install", "--upgrade", "pip"], "Upgrading pip...")
+    # Unix
+    else:
+        pip_executable = os.path.join(venv_dir, "bin", "pip")
+        run_with_spinner([pip_executable, "install", "--upgrade", "pip"], "Upgrading pip...")
     print()
 
 
@@ -76,8 +87,9 @@ def run_python_script(script_path, venv_dir="venv"):
 
 
 if __name__ == "__main__":
-    venv_dir = "venv"
-    requirements_file = "requirements.txt"
+    abs_path = os.path.abspath(__file__)
+    venv_dir = os.path.join(os.path.dirname(abs_path), "venv")
+    requirements_file = os.path.join(os.path.dirname(abs_path), "requirements.txt")
 
     try:
         create_venv(venv_dir)
